@@ -8,6 +8,7 @@ from model import Task, User
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY').encode()
+#app.secret_key = b'\x9d\xb1u\x08%\xe0\xd0p\x9bEL\xf8JC\xa3\xf4J(hAh\xa4\xcdw\x12S*,u\xec\xb8\xb8'
 
 @app.route('/all')
 def all_tasks():
@@ -17,13 +18,14 @@ def all_tasks():
 def create():
     if 'username' not in session:
         return redirect(url_for('login'))
-    # if request.method == 'POST':
-    #     task = Task(name=request.form['name'])
-    #     task.save()
+    else:
+        if request.method == 'POST':
+            task = Task(name=request.form['name'])
+            task.save()
 
-    #     return redirect(url_for('all_tasks'))
-    # else:
-    #     return render_template('create.jinja2')
+            return redirect(url_for('all_tasks'))
+        else:
+            return render_template('create.jinja2')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
